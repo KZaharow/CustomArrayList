@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,9 +8,10 @@ class CustomArrayListTest {
     private final CustomArrayList<String> list = new CustomArrayList<>();
 
     @Test
-    void add() {
+    void size() {
         list.add("one");
         list.add("two");
         list.add("three");
+        assertEquals(3, list.size());
     }
 }
