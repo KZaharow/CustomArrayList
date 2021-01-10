@@ -199,20 +199,53 @@ public class CustomArrayList<E> implements List<E> {
         // not impl
     }
 
+    /**
+     * Delete a specified collection item by defined index
+     * @param index - deleted item
+     * @return - deleted object
+     */
+    @Override
+    public E remove(int index) {
+        checkSize(index);
+        int ns = --size;
+        Object[] n = new Object[ns];
+        System.arraycopy(items, 0, n, 0, index);
+        System.arraycopy(items, index + 1, n, index, ns - index);
+        items = n;
+        return (E) items[index];
+    }
+
+    /**
+     * Delete a specified collection item by it type (first meet)
+     * @param o - deleted object
+     * @return - bool
+     */
     @Override
     public boolean remove(Object o) {
+        if (o == null) {
+            for (int index = 0; index < size; index++)
+                if (items[index] == null) {
+                    remove(index);
+                    return true;
+                }
+        } else {
+            for (int index = 0; index < size; index++)
+                if (o.equals(items[index])) {
+                    remove(index);
+                    return true;
+                }
+        }
         return false;
     }
 
-
-    @Override
-    public E remove(int index) {
-        return null;
-    }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        Object[] arr = c.toArray();
+        for (int i = 0; i < arr.length; i++) {
+            remove(arr[i]);
+        }
+        return true;
     }
 
     @Override

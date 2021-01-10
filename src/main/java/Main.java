@@ -13,14 +13,16 @@ public class Main {
         s.add("-3");
 
         list.addAll(s);
-/*
+
+        list.removeAll(s);
+
         list.add(2, "X");
-        List<String> lstrSub = list.subList(1, 2);
+        /*        List<String> lstrSub = list.subList(1, 2);
 */
-        List<String> s1 = new ArrayList<>();
+        /*List<String> s1 = new ArrayList<>();
         s1.add("ttt");
         s1.add("ttt");
-        list.addAll(3, s1);
+        list.addAll(3, s1);*/
 
     }
 }
