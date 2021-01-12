@@ -14,9 +14,9 @@ public class Main {
 
         list.addAll(s);
 
-        list.removeAll(s);
+        list.remove(1);
 
-        list.add(2, "X");
+        /*ist.add(2, "X");*/
         /*        List<String> lstrSub = list.subList(1, 2);
 */
         /*List<String> s1 = new ArrayList<>();
