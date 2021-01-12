@@ -1,14 +1,17 @@
+/*
+ * @Author
+ * Konstantin Zaharov
+ */
+
+
 import java.util.*;
 import java.util.function.UnaryOperator;
 
+/**
+ * This custom array list class provide a List interface methods implementation
+ * @param <E>
+ */
 public class CustomArrayList<E> implements List<E> {
-
-    private ArrayList a;
-
-    //uses for define array default capacity
-    private static final int DEFAULT_CAPACITY = 1;
-    private static final int MAX_CAPACITY = 0x7FFFFFFF;
-
 
     private Object[] items;
     private int size;
