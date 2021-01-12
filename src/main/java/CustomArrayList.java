@@ -43,22 +43,10 @@ public class CustomArrayList<E> implements List<E> {
         checkSize(index);
         Object[] n = new Object[size + 1];
         System.arraycopy(items, 0, n, 0, index);
-        System.arraycopy(items, index, n, index, size - index);
+        System.arraycopy(items, index, n, index + 1, size - index);
         size++;
         n[index] = element;
         items = n;
-    }
-
-    /**
-     * The method returns target collection item by index
-     *
-     * @param index - target collection item index
-     * @return E type object if exist. else return CustomArrayException
-     */
-    @Override
-    public E get(int index) {
-        checkSize(index);
-        return (E) items[index];
     }
 
     /**
@@ -105,6 +93,7 @@ public class CustomArrayList<E> implements List<E> {
     /**
      * The method returns <tt>true/false</tt> if inp. collection contains
      * all items which are in target collection
+     *
      * @param c
      * @return
      */
@@ -114,7 +103,7 @@ public class CustomArrayList<E> implements List<E> {
         int cs = c.size();
         Object[] arr = c.toArray();
         for (int i = 0; i < cs; i++) {
-            if (indexOf(arr[i]) >= 0){
+            if (indexOf(arr[i]) >= 0) {
                 counter++;
             }
         }
@@ -135,12 +124,26 @@ public class CustomArrayList<E> implements List<E> {
 
     /**
      * The method change all collection objects ref to  <tt>null</tt>
+     * plus set size=0
      */
     @Override
     public void clear() {
         for (int i = 0; i < size; i++) {
             items[i] = null;
         }
+        size = 0;
+    }
+
+    /**
+     * The method returns target collection item by index
+     *
+     * @param index - target collection item index
+     * @return E type object if exist. else return CustomArrayException
+     */
+    @Override
+    public E get(int index) {
+        checkSize(index);
+        return (E) items[index];
     }
 
     /**
@@ -154,7 +157,26 @@ public class CustomArrayList<E> implements List<E> {
     }
 
     /**
+     * Returns the index of the first specified item.
+     * return -1 if this list does not contain the element.
+     */
+    @Override
+    public int indexOf(Object o) {
+        if (o == null) {
+            for (int i = 0; i < size; i++)
+                if (items[i] == null)
+                    return i;
+        } else {
+            for (int i = 0; i < size; i++)
+                if (o.equals(items[i]))
+                    return i;
+        }
+        return -1;
+    }
+
+    /**
      * Returns Iterator<E> for future uses
+     *
      * @return - Iterator<E>
      */
     @Override
@@ -165,6 +187,7 @@ public class CustomArrayList<E> implements List<E> {
     /**
      * The method return an index of last object in collection
      * if it present
+     *
      * @param o - checked object
      * @return - index of last item
      */
@@ -201,22 +224,25 @@ public class CustomArrayList<E> implements List<E> {
 
     /**
      * Delete a specified collection item by defined index
+     *
      * @param index - deleted item
      * @return - deleted object
      */
     @Override
     public E remove(int index) {
         checkSize(index);
+        Object o = items[index];
         int ns = --size;
         Object[] n = new Object[ns];
         System.arraycopy(items, 0, n, 0, index);
         System.arraycopy(items, index + 1, n, index, ns - index);
         items = n;
-        return (E) items[index];
+        return (E) o;
     }
 
     /**
      * Delete a specified collection item by it type (first meet)
+     *
      * @param o - deleted object
      * @return - bool
      */
@@ -241,9 +267,11 @@ public class CustomArrayList<E> implements List<E> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        Object[] arr = c.toArray();
-        for (int i = 0; i < arr.length; i++) {
-            remove(arr[i]);
+        if (containsAll(c)) {
+            Object[] arr = c.toArray();
+            for (int i = 0; i < arr.length; i++) {
+                while (remove(arr[i])){}
+            }
         }
         return true;
     }
@@ -263,7 +291,7 @@ public class CustomArrayList<E> implements List<E> {
 
     @Override
     public void sort(Comparator<? super E> c) {
-
+        Arrays.sort((E[]) items, 0, size, c);
     }
 
     @Override
@@ -273,6 +301,7 @@ public class CustomArrayList<E> implements List<E> {
 
     /**
      * The method returns item quantity in curren collection object
+     *
      * @return int - size
      */
     @Override
@@ -282,7 +311,8 @@ public class CustomArrayList<E> implements List<E> {
 
     /**
      * The method convert current collection to arryay
-     * @return  Object[]
+     *
+     * @return Object[]
      */
     @Override
     public Object[] toArray() {
@@ -295,28 +325,11 @@ public class CustomArrayList<E> implements List<E> {
     }
 
     /**
-     * Returns the index of the first specified item.
-     * return -1 if this list does not contain the element.
-     */
-    @Override
-    public int indexOf(Object o) {
-        if (o == null) {
-            for (int i = 0; i < size; i++)
-                if (items[i] == null)
-                    return i;
-        } else {
-            for (int i = 0; i < size; i++)
-                if (o.equals(items[i]))
-                    return i;
-        }
-        return -1;
-    }
-
-    /**
      * The method returns a specified sub collection
      * from current collection.
+     *
      * @param fromIndex - start from index
-     * @param toIndex - stop to index
+     * @param toIndex   - stop to index
      * @return List<E> - parametrized list object
      */
     @Override
@@ -332,6 +345,7 @@ public class CustomArrayList<E> implements List<E> {
 
     /**
      * tools method uses for check collection size
+     *
      * @param index - index for checking
      */
     private void checkSize(int index) {

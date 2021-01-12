@@ -1,5 +1,8 @@
 plugins {
     id 'java'
+
+    id 'java-library'
+    id 'maven-publish'
 }
 
 group 'org.example'
@@ -7,14 +10,15 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-
     testCompile 'org.mockito:mockito-core:2.1.0'
+    implementation('clevertec:custom-array-list:0.2')
 }
 
 repositories {
@@ -26,25 +30,20 @@ test {
     useJUnitPlatform()
 }
 
-//repositories {
-//    // Use JCenter for resolving dependencies.
-//    jcenter()
-//}
-//
-//test {
-//    useJUnitPlatform()
-//}
-//
-//dependencies {
-//    // This dependency is exported to consumers, that is to say found on their compile classpath.
-//    api 'org.apache.commons:commons-math3:3.6.1'
-//
-//    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-//    implementation 'com.google.guava:guava:29.0-jre'
-//
-//    // Use JUnit test framework.
-//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-//
-//    testCompile 'org.mockito:mockito-core:2.1.0'
-//}
+jar {
+    baseName = 'custom-array-list'
+    version =  '0.2'
+}
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'clevertec'
+            artifactId = 'custom-array-list'
+            version = '0.2'
+
+            from components.java
+        }
+    }
+}

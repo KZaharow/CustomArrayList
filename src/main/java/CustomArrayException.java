@@ -5,8 +5,4 @@ class CustomArrayException extends Exception {
         this.msg = msg;
     }
 
-    public void getMsg() {
-        System.out.println(msg);
-    }
-
 }
